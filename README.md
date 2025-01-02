@@ -6,9 +6,11 @@ Tech stack:
 - Chi
 - golang-migrate
 - Air
+- direnv
 - Docker
 - PostgreSQL running on Docker
 - Swagger
+
  
 
 Application architecture (Three-Tier Architecture).
