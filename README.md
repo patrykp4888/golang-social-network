@@ -6,7 +6,7 @@ Tech stack:
 - Chi
 - golang-migrate
 - Air
-- direnv
+- godotenv
 - Docker
 - PostgreSQL running on Docker
 - Swagger
