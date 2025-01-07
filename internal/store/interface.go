@@ -1,3 +1,4 @@
+//go:generate mockgen -source=interface.go -destination=./mocks/mock.go -package=mock
 package store
 
 import "context"
