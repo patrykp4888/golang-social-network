@@ -7,14 +7,14 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+
+	"github.com/patrykp4888/golang-social-network/config"
+	"github.com/patrykp4888/golang-social-network/internal/store"
 )
 
 type application struct {
-	config config
-}
-
-type config struct {
-	addr string
+	config config.Config
+	store  store.Storage
 }
 
 func (app *application) mount() http.Handler {
@@ -37,14 +37,14 @@ func (app *application) mount() http.Handler {
 
 func (app *application) run(mux http.Handler) error {
 	server := &http.Server{
-		Addr:         app.config.addr,
+		Addr:         app.config.Address,
 		Handler:      mux,
 		WriteTimeout: time.Second * 30,
 		ReadTimeout:  time.Second * 10,
 		IdleTimeout:  time.Minute,
 	}
 
-	log.Printf("server has started at %s", app.config.addr)
+	log.Printf("server has started at %s", app.config.Address)
 
 	return server.ListenAndServe()
 }
