@@ -25,6 +25,7 @@ go.work.sum
 .env
 
 # idea
+.idea
 /.idea/.gitignore
 /.idea/golang-social-network.iml
 /.idea/modules.xml
