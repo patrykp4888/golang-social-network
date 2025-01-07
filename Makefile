@@ -1,6 +1,6 @@
 include .env
 
-.PHONY: build lint migrate-up migrate-down
+.PHONY: build lint migrate-create migrate-up migrate-down
 
 # Go parameters
 GOCMD=go
@@ -11,6 +11,7 @@ LINTER=golangci-lint
 # Migrations parameters
 MIGRATIONS_PATH=./cmd/migrate/migrations
 
+
 # Build the project
 build:
 	$(GOBUILD) -o $(BINARY_NAME) -v
@@ -18,6 +19,10 @@ build:
 # Lint the project
 lint:
 	$(LINTER) run
+
+# Perform migrations file creation
+migrate-create:
+	migrate create -seq -ext sql -dir $(MIGRATIONS_PATH) $(filter-out $@,$(MAKECMDGOALS))
 
 # Perform up migrations
 migrate-up:
