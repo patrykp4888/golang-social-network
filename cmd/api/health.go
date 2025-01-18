@@ -6,7 +6,13 @@ import (
 )
 
 func (app *application) healthCheckHandler(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("ok")); err != nil {
-		log.Fatal("app health check failed")
+	data := map[string]string{
+		"status":  "ok",
+		"env":     app.config.Environment,
+		"version": app.config.ApiVersion,
+	}
+
+	if err := writeJSON(w, http.StatusOK, data); err != nil {
+		log.Fatalf("app health check failed")
 	}
 }
