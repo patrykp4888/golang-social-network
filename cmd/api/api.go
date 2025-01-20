@@ -28,8 +28,16 @@ func (app *application) mount() http.Handler {
 	// context timeout
 	router.Use(middleware.Timeout(time.Second * 60))
 
-	router.Route("/v1", func(r chi.Router) {
-		r.Get("/health", app.healthCheckHandler)
+	router.Route("/v1", func(router chi.Router) {
+		router.Get("/health", app.healthCheckHandler)
+
+		router.Route("/posts", func(router chi.Router) {
+			router.Post("/create", app.createPostHandler)
+
+			router.Route("/{postId}", func(router chi.Router) {
+				router.Get("/", app.getPostHandler)
+			})
+		})
 	})
 
 	return router

@@ -2,6 +2,11 @@ package store
 
 import (
 	"database/sql"
+	"errors"
+)
+
+var (
+	ErrNotFound = errors.New("record not found")
 )
 
 type Storage struct {
