@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/go-chi/chi/v5"
 	"github.com/patrykp4888/golang-social-network/internal/store"
 	"net/http"
@@ -43,15 +44,20 @@ func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request
 func (app *application) getPostHandler(w http.ResponseWriter, r *http.Request) {
 	idParam := chi.URLParam(r, "postId")
 
-	idParamInt, err := strconv.ParseInt(idParam, 10, 64)
+	id, err := strconv.ParseInt(idParam, 10, 64)
 	if err != nil {
 		writeJSONError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	post, err := app.store.Posts.GetByID(r.Context(), idParamInt)
+	post, err := app.store.Posts.GetByID(r.Context(), id)
 	if err != nil {
-		writeJSONError(w, http.StatusInternalServerError, err.Error())
+		switch {
+		case errors.Is(err, store.ErrNotFound):
+			writeJSONError(w, http.StatusNotFound, err.Error())
+		default:
+			writeJSONError(w, http.StatusInternalServerError, err.Error())
+		}
 		return
 	}
 
