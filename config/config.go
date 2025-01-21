@@ -10,6 +10,7 @@ import (
 type Config struct {
 	Environment string
 	Address     string
+	ApiVersion  string
 	DB          dbConfig
 }
 
@@ -28,6 +29,7 @@ func LoadConfig() (*Config, error) {
 	return &Config{
 		Environment: os.Getenv("ENVIRONMENT"),
 		Address:     os.Getenv("API_PORT"),
+		ApiVersion:  os.Getenv("API_VERSION"),
 		DB: dbConfig{
 			Address:      os.Getenv("DB_ADDRESS"),
 			MaxOpenConns: GetInt(os.Getenv("DB_MAX_OPEN_CONNECTIONS")),
